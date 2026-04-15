@@ -48,4 +48,29 @@ JOIN products     p  ON p.id  = oi.product_id
 JOIN orders       o  ON o.id  = oi.order_id
 WHERE o.status = 'Delivered'
 GROUP BY p.category
-ORDER BY revenue DESC;
+ORDER BY revenue DESC; 
+
+-- ============================================================
+-- TASK 3 — Employees Earning Above Their Department Average
+-- Strategy: Compute per-department average salary in a
+--           subquery, then join back to employees and filter
+--           where the employee's salary exceeds that average.
+-- ============================================================
+ 
+SELECT
+    e.first_name            AS first_name,
+    e.last_name             AS last_name,
+    d.name                  AS department,
+    e.salary                AS employee_salary,
+    ROUND(dept_avg.avg_salary, 2) AS dept_avg_salary
+FROM employees  e
+JOIN departments d       ON d.id              = e.department_id
+JOIN (
+    SELECT department_id,
+           AVG(salary)  AS avg_salary
+    FROM   employees
+    GROUP  BY department_id
+) dept_avg               ON dept_avg.department_id = e.department_id
+WHERE e.salary > dept_avg.avg_salary
+ORDER BY d.name ASC, e.salary DESC; 
+
