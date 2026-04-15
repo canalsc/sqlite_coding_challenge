@@ -74,3 +74,18 @@ JOIN (
 WHERE e.salary > dept_avg.avg_salary
 ORDER BY d.name ASC, e.salary DESC; 
 
+-- ============================================================
+-- TASK 4 EXTENSION — Full Loyalty Distribution by City
+-- Strategy: Use conditional aggregation (CASE WHEN) to pivot
+--           Gold / Silver / Bronze counts into columns,
+--           grouped by city.  Sorted by Gold count desc.
+-- ============================================================
+ 
+SELECT
+    city,
+    SUM(CASE WHEN loyalty_level = 'Gold'   THEN 1 ELSE 0 END) AS gold,
+    SUM(CASE WHEN loyalty_level = 'Silver' THEN 1 ELSE 0 END) AS silver,
+    SUM(CASE WHEN loyalty_level = 'Bronze' THEN 1 ELSE 0 END) AS bronze
+FROM customers
+GROUP BY city
+ORDER BY gold DESC, city ASC;
