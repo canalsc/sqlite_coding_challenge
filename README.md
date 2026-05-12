@@ -1,4 +1,4 @@
-**Overview: **
+**Overview:**
 
 - This project answers four real-world business questions using SQLite, demonstrating applied skills in multi-table joins, aggregation, subqueries, and conditional logic. Queries are written for readability and production-quality consistency.
   
