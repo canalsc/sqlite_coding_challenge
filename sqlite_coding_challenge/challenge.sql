@@ -75,12 +75,27 @@ WHERE e.salary > dept_avg.avg_salary
 ORDER BY d.name ASC, e.salary DESC; 
 
 -- ============================================================
+-- TASK 4 — Cities with the Most Loyal Customers
+-- Strategy: Filter customers to Gold tier only, count per
+--           city, sort descending by count with city as
+--           tie-breaker.
+-- ============================================================
+
+SELECT
+    city,
+    COUNT(*)  AS gold_customer_count
+FROM customers
+WHERE loyalty_level = 'Gold'
+GROUP BY city
+ORDER BY gold_customer_count DESC, city ASC;
+
+-- ============================================================
 -- TASK 4 EXTENSION — Full Loyalty Distribution by City
 -- Strategy: Use conditional aggregation (CASE WHEN) to pivot
 --           Gold / Silver / Bronze counts into columns,
---           grouped by city.  Sorted by Gold count desc.
+--           grouped by city. Sorted by Gold count desc.
 -- ============================================================
- 
+
 SELECT
     city,
     SUM(CASE WHEN loyalty_level = 'Gold'   THEN 1 ELSE 0 END) AS gold,
